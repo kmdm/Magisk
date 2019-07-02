@@ -316,7 +316,13 @@ void proc_monitor() {
 	setup_inotify();
 
 	// First find existing zygotes
-	check_zygote();
+    do {
+        LOGD("Looking for initial zygotes...\n");
+	    check_zygote();
+        usleep(200000); // 0.2 seconds
+    } while(zygote_map.empty());
+
+    LOGD("Found initial zygotes!\n");
 
 	int status;
 
